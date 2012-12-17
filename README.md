@@ -1,9 +1,31 @@
-hashbuster
-==========
+# hashbuster
 
-A tool for updating cache-busting query strings from git commit hashes.
+hashbuster is a tool for adding cache-busting query strings to URLs in your HTML files.
 
-Usage: 
+If you make lots of changes to live web sites, browser and proxy caches are probably
+the bane of your existence. If you've ever had to tell a client to clear their browser
+cache to see your latest code push, then hashbuster is for you.
+
+## Examples
+
+Update all instances of "foo.css" in your HTML files to point to a cache-busting URL
+"foo.css?v=fixed":
+
+```
+hashbuster.py --path foo.css --version fixed *.html
+```
+
+Update the URLs of all your CSS files in all of your HTML files to include the hash of
+the most recent git commit that touched them:
+
+```
+hashbuster.py --paths "css/*.css" --git *.html
+```
+
+## Usage
+
+To install hashbuster, just copy `hashbuster.py` to somewhere in your `$PATH` (or alias
+it to your git checkout).
 
 ```
 hashbuster.py \
