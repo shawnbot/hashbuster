@@ -25,16 +25,24 @@ if __name__ == "__main__":
     import optparse, sys
 
     """
-    ./hashbust.py --git --path foo.css *.html
+    ./hashbust.py --git --path "css/*.css" *.html
     """
 
-    parser = optparse.OptionParser("""%prog --version VERSION --path PATH [dest1 [dest2 [...]]]""")
-    parser.add_option("--git", dest="git", action="store_true",
-        help="use the git hash relevant to the provided PATH")
+    parser = optparse.OptionParser("""%prog \\
+    (--version VERSION | --git) \\
+    [--query-key KEY] \\
+    --path[s] (PATH1[,PATH2[,PATH3]] | "GLOB1[,GLOB2[,GLOB3]]") \\
+    FILES
+
+Update the URLs of the specified path(s) in one or more files to include
+version information in the query string.
+""")
+    parser.add_option("-p", "--path", "--paths", dest="path", default="*.css,*.js,*.(png|jpg|gif)",
+        help="one or more comma-separated paths (or shell globs) of filenames to replace")
     parser.add_option("-v", "--version", dest="version", default="1",
-        help="the version string (hint: `git log -n 1 --format=%h filename`)")
-    parser.add_option("-p", "--path", "--paths", dest="path", default=None,
-        help="the path to replace")
+        help="the version string (if not using the git commit hash)")
+    parser.add_option("--git", dest="git", action="store_true",
+        help="use the git commit hash of the last commit that touched each path (`git log -n 1 --format=%h path`)")
     parser.add_option("-q", "--query-key", dest="query_key", default="v",
         help="the key to use in the cache-busting query string URLs")
 
@@ -43,7 +51,7 @@ if __name__ == "__main__":
     paths = map(lambda s: s.strip(), options.path.split(","))
     paths = expand_paths(paths)
 
-    print >> sys.stderr, "paths: %s" % paths
+    # print >> sys.stderr, "paths: %s" % paths
 
     def replace(text):
         for path in paths:
