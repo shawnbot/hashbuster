@@ -1,6 +1,7 @@
 # hashbuster
 
-hashbuster is a tool for adding cache-busting query strings to URLs in your HTML files.
+hashbuster is a tool for adding [cache-busting query strings](http://twosixcode.com/notes/view/simple-cache-busting-for-css-and-js)
+to URLs in your HTML files.
 
 If you make lots of changes to live web sites, browser and proxy caches are probably
 the bane of your existence. If you've ever had to tell a client to clear their browser
