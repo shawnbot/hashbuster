@@ -56,7 +56,7 @@ version information in the query string.
     def replace(text):
         for path in paths:
             if options.git:
-                version = get_git_hash(path)
+                version = get_git_hash(path) or "0"
                 print >> sys.stderr, "got git version: '%s' for path '%s'" % (version, path)
             else:
                 version = options.version
